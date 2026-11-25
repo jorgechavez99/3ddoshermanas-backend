@@ -47,4 +47,4 @@ const validarActualizacion = [
   comprobarErrores,
 ]
 
-module.exports = { validarListado, validarId, validarCreacion, validarActualizacion, ESCAPARATES }
+module.exports = { validarListado, validarId, validarCreacion, validarActualizacion, comprobarErrores, ESCAPARATES }

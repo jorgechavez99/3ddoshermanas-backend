@@ -7,6 +7,7 @@ require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
 const productosRouter = require('./routers/productosRouter')
+const presupuestosRouter = require('./routers/presupuestosRouter')
 
 const app = express()
 const PORT = process.env.PORT || 4010
@@ -18,6 +19,7 @@ app.disable('x-powered-by')
 
 app.get('/api/v1/salud', (req, res) => res.status(200).json({ error: false, msg: ['api operativa'] }))
 app.use('/api/v1/productos', productosRouter)
+app.use('/api/v1/presupuestos', presupuestosRouter)
 
 app.use((req, res) => res.status(404).json({ error: true, msg: ['ruta no encontrada'] }))
 
