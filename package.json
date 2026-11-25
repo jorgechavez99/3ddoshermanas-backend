@@ -6,7 +6,8 @@
   "scripts": {
     "test": "vitest run",
     "dev": "nodemon app.js",
-    "start": "node app.js"
+    "start": "node app.js",
+    "semilla": "node scripts/semilla.js"
   },
   "keywords": [],
   "author": "",
