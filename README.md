@@ -6,6 +6,7 @@ API del catálogo de productos de 3D Dos Hermanas. La web (repo `3ddoshermanas-f
 
 - Lista los productos visibles, de todos o de un escaparate.
 - Crea, edita y oculta productos, solo con la clave de administrador.
+- Calcula el precio de los chibis personalizados y tiene una calculadora de costes privada (modelo 3dfils).
 - Valida los datos de entrada y responde siempre con el mismo formato.
 
 ## Tecnologías
@@ -69,6 +70,9 @@ Todas las respuestas: `{ error: false, msg: ['...'], data }` o `{ error: true, m
 | POST | `/api/v1/productos` | Crea un producto (admin) | `nombre, slug, escaparate, precio_desde, descripcion?, foto_url?` |
 | PUT | `/api/v1/productos/:id` | Actualiza un producto (admin) | lo mismo + `visible?` |
 | PATCH | `/api/v1/productos/:id/ocultar` | Lo quita de la web sin borrarlo (admin) | - |
+| GET | `/api/v1/presupuestos/chibi?tamano=&personas_extra=&base_nombre=&acabado=&urgente=` | Precio final con IVA de un chibi (público, sin desglose) | - |
+| GET | `/api/v1/presupuestos/tarifas` | Parámetros de la calculadora (admin) | - |
+| POST | `/api/v1/presupuestos/calcular` | Coste desglosado de cualquier trabajo (admin) | `trabajo: {gramos, horas, minutosPreparacion?, minutosPostprocesado?, extras?}, parametros?` |
 
 Las rutas de admin necesitan la cabecera `x-clave-admin: <CLAVE_ADMIN>`. Ejemplo:
 
@@ -77,6 +81,12 @@ curl -X POST https://api.3ddoshermanas.com/api/v1/productos \
   -H "Content-Type: application/json" -H "x-clave-admin: $CLAVE_ADMIN" \
   -d '{"nombre":"Llavero Pikachu","slug":"llavero-pikachu","escaparate":"figuras-anime","precio_desde":5}'
 ```
+
+## Cambiar precios
+
+Todos los parámetros (impresora, luz, PLA, merma, hora de trabajo, margen, IVA, redondeo, recetas de cada tamaño de chibi y extras) están en `configs/tarifas.js`. Tras editarlo: `pm2 reload 3ddoshermanas-api`. Ese archivo nunca se envía a la web: el público solo ve el precio final.
+
+La plantilla para generar el chibi en Gemini a partir de la foto del cliente está en `docs/prompt-chibi.md`.
 
 ## Decisiones y pendientes
 
